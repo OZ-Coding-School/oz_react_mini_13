@@ -2,6 +2,7 @@ import React from "react";
 import moviesData from "../assets/movieListData.json"; // 리스트 데이터
 import MovieCard from "../components/MovieCard";
 
+
 const App = () => {
   // JSON에서 results 배열을 꺼냄
   const movies = moviesData.results;

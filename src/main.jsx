@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout";
 import App from "../pages/App";
 import MovieDetail from "../pages/MovieDetail";
+import '../index.css';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
