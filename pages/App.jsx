@@ -12,6 +12,7 @@ const App = () => {
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}
+          id={movie.id}
           poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // TMDB 이미지 URL
           title={movie.title}
           rating={movie.vote_average}

@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const MovieCard = ({ id, title, poster, rating }) => {
-  console.log("MovieCard props:", id, title);
+  console.log("MovieCard로 전달된 id:", id); // ✅ 확인용
+
   return (
     <Link to={`/details/${id}`}>
       <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition">
