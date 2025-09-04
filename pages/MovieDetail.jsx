@@ -34,29 +34,40 @@ const MovieDetail = () => {
   if (!movie) return <p>로딩 중...</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 grid grid-cols-3 gap-4">
-      <div className="col-span-1">
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className="w-full rounded-lg shadow-lg"
-        />
-      </div>
+    <div
+      className="absolute inset-0 bg-center bg-no-repeat bg-cover"
+      style={{
+        backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
+      }}
+    >
+      {/* 블러 + 반투명 배경 컨테이너 */}
+      <div className="max-w-5xl mx-auto grid grid-cols-3 gap-4 backdrop-blur-md bg-black/30 rounded-lg p-6">
+        {/* 포스터 */}
+        <div className="col-span-1">
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            className="w-full rounded-lg shadow-lg"
+          />
+        </div>
 
-      <div className="col-span-2 grid gap-4">
-        <div className="flex justify-between items-center bg-blue-600 text-white p-4 rounded-lg">
-          <h1 className="text-2xl font-bold">{movie.title}</h1>
-          <p className="text-lg">⭐ {movie.vote_average}</p>
-        </div>
-        <div className="bg-blue-500 text-white p-4 rounded-lg">
-          {movie.genres.map((g) => g.name).join(", ")}
-        </div>
-        <div className="bg-blue-400 text-white p-4 rounded-lg">
-          {movie.overview}
+        {/* 영화 정보 */}
+        <div className="col-span-2 grid gap-4">
+          <div className="flex justify-between items-center bg-gray-800/70 text-white p-4 rounded-lg">
+            <h1 className="text-2xl font-bold">{movie.title}</h1>
+            <p className="text-lg">⭐ {movie.vote_average}</p>
+          </div>
+          <div className="bg-gray-800/70 text-white p-4 rounded-lg">
+            {movie.genres.map((g) => g.name).join(", ")}
+          </div>
+          <div className="bg-gray-800/70 text-white p-4 rounded-lg">
+            {movie.overview}
+          </div>
         </div>
       </div>
     </div>
   );
+
 };
 
 export default MovieDetail;

@@ -18,12 +18,8 @@ const App = () => {
           }
         );
 
-
         // adult === false인 영화만 필터링
         const filtered = res.data.results.filter((movie) => !movie.adult);
-
-        console.log("API에서 받아온 전체 영화 배열:", res.data.results);
-        console.log("adult 필터 적용 후 영화 배열:", filtered);
 
         setMovies(filtered);
       } catch (error) {
