@@ -1,29 +1,23 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
-function MovieCard({ movie }) {
+const MovieCard = ({ movie }) => {
   return (
-    <div
-      className="movie-card"
-      style={{
-        width: '200px',
-        border: '1px solid #ccc',
-        borderRadius: '10px',
-        overflow: 'hidden',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
-      }}
-    >
+    <div className="movie-card" style={{ width: "200px" }}>
       <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        src={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "https://via.placeholder.com/200x300?text=No+Image"
+        }
         alt={movie.title}
-        style={{ width: '100%' }}
+        style={{ width: "200px", height: "300px", objectFit: "cover" }}
+        onError={(e) => (e.target.src = "https://via.placeholder.com/200x300?text=No+Image")}
       />
-      <div style={{ padding: '10px' }}>
-        <h3>{movie.title}</h3>
-        <p>평점: {movie.vote_average}</p>
-        <p>출시일: {movie.release_date}</p>
-      </div>
+      <h3 style={{ fontSize: "16px", marginTop: "10px" }}>{movie.title}</h3>
+      <Link to={`/movie/${movie.id}`}>상세보기</Link>
     </div>
   );
-}
+};
 
 export default MovieCard;

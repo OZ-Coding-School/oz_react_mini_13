@@ -1,16 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import NavBar from "./NavBar";
 
-function Layout({ children }) {
+function Layout() {
   return (
     <div>
-      <header style={{ padding: '20px', textAlign: 'center', backgroundColor: '#222', color: '#fff' }}>
-        <h1>My Movie App</h1>
-        <nav>
-          <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
-        </nav>
-      </header>
-      <main style={{ padding: '20px' }}>{children}</main>
+      <NavBar />
+      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
+        <Outlet />
+      </main>
     </div>
   );
 }

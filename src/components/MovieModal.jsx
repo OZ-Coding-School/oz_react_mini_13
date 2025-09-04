@@ -1,8 +1,6 @@
 import React from "react";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-
-// 장르 ID → 한글 이름 매핑
 const GENRES = {
   28: "액션",
   12: "모험",
@@ -50,44 +48,25 @@ function MovieModal({ movie, onClose }) {
           boxShadow: "0 8px 20px rgba(0,0,0,0.5)",
         }}
       >
-        {/* 포스터 */}
         <img
           src={`${IMAGE_BASE_URL}${movie.poster_path}`}
           alt={movie.title}
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            marginBottom: "15px",
-          }}
+          style={{ width: "100%", borderRadius: "10px", marginBottom: "15px" }}
         />
-
-        {/* 제목 */}
         <h2>{movie.title}</h2>
-
-        {/* 장르 */}
         <p>
           <strong>장르:</strong>{" "}
-          {movie.genre_ids
-            ? movie.genre_ids.map((id) => GENRES[id] || id).join(", ")
-            : "정보 없음"}
+          {movie.genre_ids.map((id) => GENRES[id] || id).join(", ")}
         </p>
-
-        {/* 평점 */}
         <p>
           <strong>평점:</strong> {movie.vote_average} / 10
         </p>
-
-        {/* 출시일 */}
         <p>
-          <strong>출시일:</strong> {movie.release_date || "정보 없음"}
+          <strong>출시일:</strong> {movie.release_date}
         </p>
-
-        {/* 줄거리 */}
         <p style={{ lineHeight: "1.6", marginTop: "12px" }}>
           <strong>줄거리:</strong> {movie.overview || "줄거리 없음"}
         </p>
-
-        {/* 닫기 버튼 */}
         <button
           onClick={onClose}
           style={{

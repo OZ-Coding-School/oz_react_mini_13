@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import MovieDetail from "./components/MovieDetail";
 import movieListData from "./data/movieListData.json";
-import MovieCard from "./components/MovieCard";
-import SearchBar from "./components/SearchBar";
+import MovieList from "./components/MovieList";
 import MovieModal from "./components/MovieModal";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -17,48 +17,33 @@ function App() {
   );
 
   return (
-    <Layout>
-      <SearchBar query={query} setQuery={setQuery} />
-
-      <Routes>
+    <Routes>
+      <Route path="/" element={<Layout />}>
         <Route
-          path="/"
+          index
           element={
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
-                justifyContent: "center",
-              }}
-            >
-              {filteredMovies.map((movie) => (
-                <div
-                  key={movie.id}
-                  onClick={() => setSelectedMovie(movie)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <MovieCard movie={movie} />
-                </div>
-              ))}
-            </div>
+            <>
+              <SearchBar query={query} setQuery={setQuery} />
+              <MovieList
+                movies={filteredMovies}
+                onSelect={(movie) => setSelectedMovie(movie)}
+              />
+              {selectedMovie && (
+                <MovieModal
+                  movie={selectedMovie}
+                  onClose={() => setSelectedMovie(null)}
+                />
+              )}
+            </>
           }
         />
         <Route
-          path="/movie/:id"
+          path="movie/:id"
           element={<MovieDetail data={movieListData.results} />}
         />
-      </Routes>
-
-      {selectedMovie && (
-        <MovieModal
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-        />
-      )}
-    </Layout>
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
-
