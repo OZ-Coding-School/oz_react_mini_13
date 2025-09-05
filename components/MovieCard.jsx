@@ -16,7 +16,7 @@ const MovieCard = ({ id, title, poster, rating }) => {
           className="w-full"
         />
         <div className="p-4">
-          <h2 className="text-lg font-bold">{title}</h2>
+          <h2 className="text-lg font-bold truncate whitespace-nowrap overflow-hidden">{title}</h2>
           <p>⭐ {rating}</p>
         </div>
       </div>
