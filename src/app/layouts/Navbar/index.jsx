@@ -80,7 +80,6 @@ const Bt = styled.div`
 const NavBar = () => {
   const [toggle, setToggle] = useState(false);
   const isDarkMode = useSelector((state) => state.setDarkMode);
-  console.log(isDarkMode);
   const dispatch = useDispatch();
   return (
     <Wrapper>

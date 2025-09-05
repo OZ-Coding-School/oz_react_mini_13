@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { movieListData } from '@/shared/mocks';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { PopularMovieFetch } from '../../../api/tmbc';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,6 +30,8 @@ const Box = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  overflow: scroll;
 `;
 const Flex = styled(Link)`
   display: flex;
@@ -51,8 +53,10 @@ const Title = styled.div`
 `;
 
 const SimilarMovies = () => {
-  const ListData = movieListData.results.filter((_, i) => i < 6);
   const isDarkMode = useSelector((state) => state.setDarkMode);
+  const params = useParams();
+
+  const ListData = PopularMovieFetch({ query: `https://api.themoviedb.org/3/movie/${params.id}/similar?language=ko-KO&page=1`, enabled: true });
 
   return (
     <Wrapper $isDarkMode={isDarkMode}>
@@ -60,7 +64,7 @@ const SimilarMovies = () => {
         <Head>비슷한 영화</Head>
 
         <Box>
-          {ListData.map((el) => (
+          {ListData?.map((el) => (
             <Flex key={el.id} to={`/details/${el.id}`}>
               <Poster src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} />
 

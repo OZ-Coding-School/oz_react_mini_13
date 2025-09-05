@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   text-decoration: none;
 `;
 const Poster = styled.img`
+  width: 355px;
   height: 500px;
   border-radius: 5px;
   box-shadow: 10px 5px 10px #aeaeae;
@@ -21,19 +22,24 @@ const Poster = styled.img`
     cursor: pointer;
   }
 `;
+const FlexBox = styled.div`
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 const Title = styled.div`
-  padding: 10px 0;
+  padding: 15px 0;
+
+  width: 280px;
   font-size: 25px;
   font-weight: 600;
+  text-overflow: ellipsis;
 `;
 const Rating = styled.div`
   font-size: 18px;
   font-weight: 500;
-`;
-const FlexBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const MovieCard = (pr) => {

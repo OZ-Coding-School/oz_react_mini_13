@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { movieListData } from '@/shared/mocks';
 import MovieCard from '@/shared/ui/PopularMovies/MovieCard';
+import { PopularMovieFetch } from '../../../api/tmbc';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,7 +27,7 @@ const MoviesList = styled.div`
 `;
 
 const PopularMovies = () => {
-  const Data = movieListData.results;
+  const popularMovie = PopularMovieFetch({ query: 'https://api.themoviedb.org/3/discover/movie?language=ko-KO&include_adult=false&sort_by=popularity.desc&page=1&with_genres=', enabled: true });
 
   return (
     <Wrapper>
@@ -35,7 +35,7 @@ const PopularMovies = () => {
         <Title>인기순</Title>
 
         <MoviesList>
-          {Data.map((el) => (
+          {popularMovie?.map((el) => (
             <MovieCard key={el.id} data={el} />
           ))}
         </MoviesList>

@@ -1,6 +1,6 @@
 import MoviePosterCard from '@/shared/ui/Top20Movies/MoviePosterCard';
-import { movieListData } from '@/shared/mocks';
 import styled from 'styled-components';
+import { TopMovieFetch } from '../../../api/tmbc';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,7 +26,7 @@ const MoviesList = styled.div`
 `;
 
 const Top20Movies = () => {
-  const Data = movieListData.results.filter((el) => el.poster_path);
+  const topMovie = TopMovieFetch({ query: 'https://api.themoviedb.org/3/discover/movie?language=ko-KO&include_adult=false&sort_by=vote_count.desc&with_genres=', enabled: true });
 
   return (
     <Wrapper>
@@ -34,7 +34,7 @@ const Top20Movies = () => {
         <Title>평점순 TOP 20</Title>
 
         <MoviesList>
-          {Data.map((el, i) => (
+          {topMovie?.map((el, i) => (
             <MoviePosterCard key={el.id} data={el} index={i + 1} />
           ))}
         </MoviesList>

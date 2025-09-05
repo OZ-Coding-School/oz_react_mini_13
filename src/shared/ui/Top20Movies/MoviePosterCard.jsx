@@ -31,6 +31,7 @@ const MoviePosterCard = (pr) => {
       <Num>{pr.index}</Num>
       <Link to={`/details/${pr.data.id}`}>
         <Poster src={`https://image.tmdb.org/t/p/w500${pr.data.poster_path}`} />
+        <Poster src={`https://image.tmdb.org/t/p/w500/nmtMNxslljllSTVtt7VIOXdxSZp.jpg`} />
       </Link>
     </Wrapper>
   );

@@ -1,6 +1,7 @@
-import { movieDetailData } from '@/shared/mocks';
 import { FavoritesSVG } from '@/shared/assets/SVGicons/32pxIcon';
 import styled from 'styled-components';
+import { DetailMovieFetch } from '../../../api/tmbc';
+import { useParams } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -54,7 +55,8 @@ const Like = styled.div`
 `;
 
 const MovieInfoCard = () => {
-  const DetailData = movieDetailData;
+  const params = useParams();
+  const DetailData = DetailMovieFetch({ query: `https://api.themoviedb.org/3/movie/${params.id}?language=ko-KO`, enabled: true });
 
   return (
     <Wrapper $bg={`https://image.tmdb.org/t/p/w500${DetailData.backdrop_path}`}>
@@ -68,7 +70,7 @@ const MovieInfoCard = () => {
           <Text>별점: {DetailData.vote_average}</Text>
           <Text style={{ display: 'flex' }}>
             장르:
-            {DetailData.genres.map((el) => (
+            {DetailData.genres?.map((el) => (
               <div style={{ padding: '0 3px' }} key={el.name}>
                 {el.name},
               </div>
