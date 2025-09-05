@@ -1,14 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MovieCard = ({ poster, title, rating }) => {
+const MovieCard = ({ id, title, poster, rating }) => {
+
   return (
-    <Link to="/details">
-      <div className="rounded-2xl shadow-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-        <img src={poster} alt={title} className="w-full h-64 object-cover" />
+    <Link to={`/details/${id}`}>
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition">
+        <img
+          src={
+            poster
+              ? `https://image.tmdb.org/t/p/w500${poster}`
+              : "https://via.placeholder.com/500x750?text=No+Image"
+          }
+          alt={title}
+          className="w-full"
+        />
         <div className="p-4">
-          <h3 className="text-lg font-bold">{title}</h3>
-          <p className="text-gray-600">⭐ {rating}</p>
+          <h2 className="text-lg font-bold">{title}</h2>
+          <p>⭐ {rating}</p>
         </div>
       </div>
     </Link>
