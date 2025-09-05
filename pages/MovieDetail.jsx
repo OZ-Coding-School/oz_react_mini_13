@@ -43,7 +43,7 @@ const MovieDetail = () => {
 
   return (
     <div
-      className="absolute inset-0 bg-center bg-no-repeat bg-cover"
+      className="min-h-screen bg-center bg-no-repeat bg-cover"
       style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}
     >
       <div className="max-w-5xl mx-auto grid grid-cols-3 gap-4 backdrop-blur-md bg-black/30 rounded-lg p-6">
