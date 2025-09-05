@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
 const GENRES = {
   28: "액션",
   12: "모험",
@@ -16,6 +17,28 @@ const GENRES = {
 };
 
 function MovieModal({ movie, onClose }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  // 모달 열릴 때 localStorage에서 찜 정보 가져오기
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(favorites.includes(movie.id));
+  }, [movie]);
+
+  // 찜 토글 함수
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let updated;
+    if (favorites.includes(movie.id)) {
+      updated = favorites.filter((id) => id !== movie.id);
+      setIsFavorite(false);
+    } else {
+      updated = [...favorites, movie.id];
+      setIsFavorite(true);
+    }
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
+
   if (!movie) return null;
 
   return (
@@ -48,25 +71,61 @@ function MovieModal({ movie, onClose }) {
           boxShadow: "0 8px 20px rgba(0,0,0,0.5)",
         }}
       >
+        {/* 포스터 */}
         <img
           src={`${IMAGE_BASE_URL}${movie.poster_path}`}
           alt={movie.title}
-          style={{ width: "100%", borderRadius: "10px", marginBottom: "15px" }}
+          style={{
+            width: "100%",
+            borderRadius: "10px",
+            marginBottom: "15px",
+          }}
         />
+
+        {/* 제목 */}
         <h2>{movie.title}</h2>
+
+        {/* 장르 */}
         <p>
           <strong>장르:</strong>{" "}
-          {movie.genre_ids.map((id) => GENRES[id] || id).join(", ")}
+          {movie.genre_ids
+            ? movie.genre_ids.map((id) => GENRES[id] || id).join(", ")
+            : "정보 없음"}
         </p>
+
+        {/* 평점 */}
         <p>
           <strong>평점:</strong> {movie.vote_average} / 10
         </p>
+
+        {/* 출시일 */}
         <p>
-          <strong>출시일:</strong> {movie.release_date}
+          <strong>출시일:</strong> {movie.release_date || "정보 없음"}
         </p>
+
+        {/* 줄거리 */}
         <p style={{ lineHeight: "1.6", marginTop: "12px" }}>
           <strong>줄거리:</strong> {movie.overview || "줄거리 없음"}
         </p>
+
+        {/* 찜 버튼 */}
+        <button
+          onClick={toggleFavorite}
+          style={{
+            marginTop: "15px",
+            padding: "10px 20px",
+            border: "none",
+            borderRadius: "8px",
+            background: isFavorite ? "#ffcc00" : "#e50914",
+            color: "#fff",
+            cursor: "pointer",
+            marginRight: "10px",
+          }}
+        >
+          {isFavorite ? "찜 완료" : "찜하기"}
+        </button>
+
+        {/* 닫기 버튼 */}
         <button
           onClick={onClose}
           style={{
@@ -74,7 +133,7 @@ function MovieModal({ movie, onClose }) {
             padding: "10px 20px",
             border: "none",
             borderRadius: "8px",
-            background: "#e50914",
+            background: "#555",
             color: "#fff",
             cursor: "pointer",
           }}

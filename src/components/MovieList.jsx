@@ -24,4 +24,3 @@ const MovieList = ({ movies, onSelect }) => {
 export default MovieList;
 
 
-

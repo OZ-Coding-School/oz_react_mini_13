@@ -18,7 +18,7 @@ const NavBar = () => {
           to="/"
           style={{ color: '#fff', textDecoration: 'none', fontWeight: '700', fontSize: '1.2rem' }}
         >
-          MovieApp
+          영화
         </Link>
       </div>
     </nav>
