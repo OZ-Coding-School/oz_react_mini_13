@@ -19,9 +19,6 @@ const MovieDetail = () => {
   return (
     <Wrapper $isDarkMode={isDarkMode}>
       <MovieInfoCard />
-      <SimilarMovies />
-      <hr />
-      <CastList />
     </Wrapper>
   );
 };

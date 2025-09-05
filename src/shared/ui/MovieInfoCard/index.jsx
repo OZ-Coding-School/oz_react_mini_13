@@ -33,6 +33,8 @@ const LBox = styled.div`
   justify-content: flex-start;
   font-size: 18px;
 
+  background: rgb(0, 0, 0, 0.5);
+
   color: #fff;
 `;
 const TitleBox = styled.div`
