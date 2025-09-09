@@ -1,10 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 const MovieCard = ({ id, title, poster, rating }) => {
+  const { setQuery } = useOutletContext(); // ✅ Layout에서 전달받음
+
+  const handleClick = () => {
+    setQuery(""); // 검색어 초기화
+  };
 
   return (
-    <Link to={`/details/${id}`}>
+    <Link to={`/details/${id}`} onClick={handleClick}>
       <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition">
         <img
           src={
@@ -16,7 +21,9 @@ const MovieCard = ({ id, title, poster, rating }) => {
           className="w-full"
         />
         <div className="p-4">
-          <h2 className="text-lg font-bold">{title}</h2>
+          <h2 className="text-lg font-bold truncate whitespace-nowrap overflow-hidden">
+            {title}
+          </h2>
           <p>⭐ {rating}</p>
         </div>
       </div>
