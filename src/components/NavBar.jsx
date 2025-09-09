@@ -1,15 +1,33 @@
-// src/components/NavBar.jsx
-import { useEffect, useState } from "react";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const BRAND_BLUE = "#3366FF";
 
-export default function NavBar() {   // ✅ default export
+export default function NavBar() {
   const [params, setParams] = useSearchParams();
   const [q, setQ] = useState(params.get("q") || "");
   const dq = useDebounce(q, 500);
 
+  const nav = useNavigate();
+  const loc = useLocation(); // ✅ 검색 시 홈으로 보내기 위해 사용
+  const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // 드롭다운 외부 클릭 시 닫기
+  const menuRef = useRef(null);
+  useEffect(() => {
+    function handleDocPointerDown(e) {
+      if (menuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("pointerdown", handleDocPointerDown);
+    return () => document.removeEventListener("pointerdown", handleDocPointerDown);
+  }, [menuOpen]);
+
+  // 🔎 디바운스된 검색어를 URL 파라미터로 반영 + 검색어가 있으면 홈으로 이동
   useEffect(() => {
     const next = new URLSearchParams(params);
     if (dq.trim()) {
@@ -20,16 +38,30 @@ export default function NavBar() {   // ✅ default export
       next.delete("page");
     }
     setParams(next, { replace: false });
+
+    // ✅ 다른 페이지에서 입력해도 홈으로 이동하여 검색 결과 노출
+    if (dq.trim() && loc.pathname !== "/") {
+      nav(`/?${next.toString()}`, { replace: false });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dq]);
 
+  const onLogout = async () => {
+    await logout(); // Context에서 세션/캐시 제거 + setUser(null)
+    setMenuOpen(false);
+    nav("/", { replace: true });
+  };
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#0B1020]/70 backdrop-blur-md">
+    // z-index를 더 높여 위에 깔리게
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0B1020]/70 backdrop-blur-md">
       <nav className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
+        {/* 로고 */}
         <Link to="/" className="text-xl font-extrabold tracking-tight">
           <span className="text-[#3366FF]">OZ</span>Wave
         </Link>
 
+        {/* 메뉴 */}
         <div className="ml-6 hidden gap-6 md:flex">
           {[
             { to: "/", label: "홈" },
@@ -44,24 +76,76 @@ export default function NavBar() {   // ✅ default export
                 "text-sm transition-colors hover:text-white/90 " +
                 (isActive ? "font-semibold" : "text-white/70")
               }
-              style={({ isActive }) => ({
-                color: isActive ? BRAND_BLUE : undefined,
-              })}
+              style={({ isActive }) => ({ color: isActive ? BRAND_BLUE : undefined })}
             >
               {i.label}
             </NavLink>
           ))}
         </div>
 
-        <div className="ml-auto flex items-center">
+        {/* 오른쪽: 검색 + 계정 */}
+        <div className="ml-auto flex items-center gap-3">
+          {/* 🔎 검색 인풋 (버튼 없음, 자동 검색) */}
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="제목으로 검색 (예: Dune)"
-            className="w-64 md:w-80 rounded-full px-4 py-2 text-sm outline-none
+            placeholder="제목으로 검색"
+            className="w-48 md:w-72 rounded-full px-4 py-2 text-sm outline-none
                        bg-white/10 text-white placeholder-white/50
                        focus:ring-2 focus:ring-[rgba(51,102,255,.45)]"
           />
+
+          {!user ? (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/login"
+                className="px-3 py-1.5 rounded-lg bg-white/10 text-white hover:bg-white/20 text-sm"
+              >
+                로그인
+              </Link>
+              <Link
+                to="/signup"
+                className="px-3 py-1.5 rounded-lg bg-[#3366FF] text-white text-sm"
+              >
+                회원가입
+              </Link>
+            </div>
+          ) : (
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                className="w-9 h-9 rounded-full overflow-hidden bg-white/10 focus:ring-2 focus:ring-indigo-300"
+                title={user.userName || user.email}
+              >
+                <img
+                  src={user.profileImageUrl}
+                  alt="avatar"
+                  className="w-full h-full object-cover pointer-events-none"
+                />
+              </button>
+
+              {menuOpen && (
+                <div
+                  className="absolute right-0 mt-2 w-44 rounded-xl bg-[#121833] shadow-xl
+                             border border-white/10 p-1 z-[9999]"
+                  role="menu"
+                  aria-label="account menu"
+                >
+                  <div className="px-3 py-2 text-xs text-white/60">
+                    {user.userName || user.email}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onLogout}
+                    className="w-full text-left px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-white/10"
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </nav>
     </header>
