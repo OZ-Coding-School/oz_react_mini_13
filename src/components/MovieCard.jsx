@@ -7,9 +7,9 @@ const MovieCard = ({ movie }) => {
   const voteAverage = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
 
   return (
-    // 너비를 w-40으로 고정
-    <div className="w-40 bg-gray-900 rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-      <Link to={`/details/${movie.id}`}>
+    <div className="w-40 sm:w-44 md:w-48 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+      {/* to 속성을 동적으로 변경하여 클릭 시 해당 영화의 ID를 URL에 포함시킵니다. */}
+      <Link to={`/details/${movie.id}`}> 
         <img 
           src={posterUrl} 
           alt={movie.title} 
