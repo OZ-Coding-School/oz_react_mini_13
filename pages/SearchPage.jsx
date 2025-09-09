@@ -23,7 +23,9 @@ const SearchPage = () => {
         );
 
         const data = await res.json();
-        setResults(data.results || []);
+        const filtered = (data.results || []).filter((movie) => !movie.adult);
+
+        setResults(filtered);
       } catch (err) {
         console.error("검색 실패:", err);
       }
