@@ -7,12 +7,12 @@ function MovieDetail() {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => { //랜더링 막기위해 
+  useEffect(() => {
     getMovieDetail(id).then((data) => {
       setMovie(data);
       setLoading(false);
     });
-  }, [id]); //의존성 배열 //빈배열 처음 한번만 실행 한다. 
+  }, [id]);
 
   if (loading) return <div>Loading...</div>;
 
