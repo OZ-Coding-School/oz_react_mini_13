@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import MovieCard from '@/shared/ui/PopularMovies/MovieCard';
-import { PopularMovieFetch } from '../../../api/tmbc';
+import { useMovieList } from '@/api/movieHooks';
+import { BREAKPOINTS } from '@/shared/styles/breakpoints';
+import MovieCard from '@/shared/ui/Card/MovieCard';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -18,16 +19,34 @@ const Title = styled.div`
   padding: 20px 0;
   font-size: 40px;
   font-weight: 600;
+
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    padding: 15px 0;
+    font-size: 30px;
+  }
+  @media (max-width: ${BREAKPOINTS.mobile}) {
+    padding: 10px 0;
+    font-size: 25px;
+  }
 `;
 const MoviesList = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 20px;
+
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    gap: 10px;
+  }
+
+  @media (max-width: ${BREAKPOINTS.mobile}) {
+    gap: 5px;
+  }
 `;
 
 const PopularMovies = () => {
-  const popularMovie = PopularMovieFetch({ query: 'https://api.themoviedb.org/3/discover/movie?language=ko-KO&include_adult=false&sort_by=popularity.desc&page=1&with_genres=', enabled: true });
+  const popularMovie = useMovieList({ query: 'https://api.themoviedb.org/3/discover/movie?language=ko-KO&include_adult=false&sort_by=popularity.desc&page=1&with_genres=' });
 
   return (
     <Wrapper>

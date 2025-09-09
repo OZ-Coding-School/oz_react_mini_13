@@ -2,7 +2,7 @@ import MovieInfoCard from '@/shared/ui/MovieInfoCard';
 import SimilarMovies from '@/shared/ui/SimilarMovies';
 import CastList from '@/shared/ui/CastList';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useScrollToTop } from '@/shared/hooks/useUiHooks';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -10,15 +10,17 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background: ${(pr) => (pr.$isDarkMode ? '#000' : '#fff')};
+  background: '#fff';
 `;
 
 const MovieDetail = () => {
-  const isDarkMode = useSelector((state) => state.setDarkMode);
-
   return (
-    <Wrapper $isDarkMode={isDarkMode}>
+    <Wrapper>
+      {useScrollToTop()}
       <MovieInfoCard />
+      <CastList />
+      <SimilarMovies />
+      <hr />
     </Wrapper>
   );
 };

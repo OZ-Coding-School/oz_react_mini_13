@@ -1,75 +1,116 @@
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useMovieCast } from '@/api/movieHooks';
+import { useParams } from 'react-router-dom';
+import { BREAKPOINTS } from '@/shared/styles/breakpoints';
+import { PlaySVG } from '@/shared/assets/SVGicons';
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 80%;
+  display: inline-block;
+  position: relative;
+  overflow-x: scroll;
 `;
 const MainBox = styled.div`
-  width: 1200px;
-  margin: 0 0 20px 0;
-
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
 `;
-const Head = styled.div`
+const Title = styled.div`
   padding: 15px 0;
   font-size: 25px;
   font-weight: 600;
-  color: ${(pr) => (pr.$isDarkMode ? '#fff' : '#000')};
+  color: '#000';
 `;
-const Box = styled.div`
-  width: 1200px;
+const WrapBox = styled.div`
+  margin: 0 20px 0 0;
+`;
+const Casting = styled.img`
+  position: relative;
+  width: 130px;
+  height: 195px;
+  display: block;
+  border-radius: 5px;
+
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    width: 90px;
+    height: 135px;
+  }
+`;
+const FlexBox = styled.div`
+  width: 130px;
+  height: 195px;
+  background: rgb(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    width: 90px;
+    height: 135px;
+  }
+`;
+const FontBox = styled.div`
+  width: 130px;
+  height: 195px;
+  position: absolute;
+  bottom: 0;
 
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  overflow: scroll;
-`;
 
-const Flex = styled.div`
-  margin: 0 10px 0 0;
-  height: 80px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  text-decoration: none;
 
-  border-radius: 10px;
-  background: #cacaca;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 
-  display: flex;
-  align-items: center;
-`;
-const Img = styled.div`
-  margin: 0 10px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #aeaeae;
-`;
-const Name = styled.div`
-  width: 180px;
-  padding: 10px 0;
-  font-size: 18px;
-`;
+  ${WrapBox}:hover & {
+    cursor: default;
+    opacity: 1;
+  }
 
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    width: 90px;
+    height: 135px;
+  }
+`;
+const Font = styled.div`
+  padding: 30px 0;
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+
+  @media (max-width: ${BREAKPOINTS.tablet}) {
+    font-size: 20px;
+  }
+`;
 const CastList = () => {
-  const DummyData = Array(15).fill('');
-  const isDarkMode = useSelector((state) => state.setDarkMode);
+  const params = useParams();
+  const data = useMovieCast({ query: `https://api.themoviedb.org/3/movie/${params.id}/credits?language=ko-KR` });
 
   return (
-    <Wrapper>
-      <MainBox>
-        <Head $isDarkMode={isDarkMode}>출연: </Head>
+    <>
+      <Wrapper>
+        <Title>출연: </Title>
+        <MainBox>
+          {data?.map((el) => (
+            <WrapBox key={el.id}>
+              {el.profile ? <Casting src={`https://image.tmdb.org/t/p/w500${el.profile}`} alt={el.name} /> : <FlexBox>{PlaySVG({ fill: '#fff', size: '32' })}</FlexBox>}
 
-        <Box>
-          {DummyData.map((el, i) => (
-            <Flex key={i}>
-              <Img />
-              <Name>name</Name>
-            </Flex>
+              <FontBox>
+                <Font>{el.name}</Font>
+              </FontBox>
+            </WrapBox>
           ))}
-        </Box>
-      </MainBox>
-    </Wrapper>
+        </MainBox>
+      </Wrapper>
+
+      <Wrapper></Wrapper>
+    </>
   );
 };
 
