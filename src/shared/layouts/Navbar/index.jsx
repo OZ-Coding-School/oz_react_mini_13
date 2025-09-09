@@ -1,25 +1,41 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { PlaySVG } from '../../assets/SVGicons/40pxIcon';
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 70px;
+  height: 100px;
 
-  /* position: absolute; */
+  position: absolute;
 
-  background: #aeaeae;
+  background: rgb(0, 0, 0, 0.8);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const MainBox = styled.div`
+  width: 90%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-
 const Logo = styled(Link)`
-  padding: 10px 20px;
   font-size: 40px;
 
   text-decoration: none;
-  color: #000;
+  color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.1s;
+
+  :hover {
+    scale: 1.1;
+    cursor: pointer;
+  }
 `;
 const InputBox = styled.div`
   width: 600px;
@@ -60,14 +76,9 @@ const Bt = styled.div`
 const NavBar = () => {
   return (
     <Wrapper>
-      <Logo to={'./'}>Movie</Logo>
-      <InputBox>
-        <Input />
-      </InputBox>
-      <BtBox>
-        <Bt>로그인</Bt>
-        <Bt>회원가입</Bt>
-      </BtBox>
+      <MainBox>
+        <Logo to={'./'}>{PlaySVG({ fill: '#fff' })}</Logo>
+      </MainBox>
     </Wrapper>
   );
 };
