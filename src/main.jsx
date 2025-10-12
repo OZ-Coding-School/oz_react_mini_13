@@ -1,18 +1,21 @@
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import AppRoutes from "./routes/AppRoutes.jsx";
-import { BrowserRouter } from "react-router-dom";
-import { CommandPaletteProvider } from "./components/command/CommandPalette";
-import { SupabaseProvider } from "./lib/supabase";
-import { AuthProvider } from "./contexts/AuthContext";
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import AppRoutes from './routes/AppRoutes.jsx';
+import { BrowserRouter } from 'react-router-dom';
+import { CommandPaletteProvider } from './components/command/CommandPalette';
+import { SupabaseProvider } from './lib/supabase';
+import { AuthProvider } from './contexts/AuthContext';
+import { BookmarkProvider } from './contexts/BookmarkContext';
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <SupabaseProvider>
       <AuthProvider>
-        <CommandPaletteProvider>
-          <AppRoutes />
-        </CommandPaletteProvider>
+        <BookmarkProvider>
+          <CommandPaletteProvider>
+            <AppRoutes />
+          </CommandPaletteProvider>
+        </BookmarkProvider>
       </AuthProvider>
     </SupabaseProvider>
   </BrowserRouter>
