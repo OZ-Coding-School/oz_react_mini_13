@@ -17,6 +17,7 @@ export default function AppRoutes() {
       <Route element={<Layout />}>
         <Route path="/" element={<App />} />
         <Route path="/details/:id" element={<MovieDetail />} />
+        <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/search" element={<Search />} />
 
         {/* 로그인 필요한 페이지 */}
